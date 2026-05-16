@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} - 모던 웹 스타터킷`,
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -38,7 +38,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="flex min-h-screen flex-col bg-background text-foreground">
+      <body className="bg-background text-foreground flex min-h-screen flex-col">
         <ThemeProvider>
           <TooltipProvider>
             <SiteHeader />

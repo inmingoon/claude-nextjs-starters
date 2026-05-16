@@ -1,0 +1,25 @@
+node_modules
+.next
+out
+build
+coverage
+package-lock.json
+public/fonts
+.env
+.env.*
+!.env.local.example
+!.env.example
+.playwright-mcp
+shrimp-data
+shrimp-rules.md
+# shadcn radix-nova generated; let `npx shadcn add` own the format.
+components/ui
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+*.woff
+*.woff2
+*.ttf

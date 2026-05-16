@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 export default function NotFound() {
   return (
     <Container className="flex flex-1 flex-col items-center justify-center py-24 text-center">
-      <p className="text-sm font-medium tracking-widest text-muted-foreground">
+      <p className="text-muted-foreground text-sm font-medium tracking-widest">
         404
       </p>
       <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
         페이지를 찾을 수 없습니다
       </h1>
-      <p className="mt-4 max-w-md text-muted-foreground">
+      <p className="text-muted-foreground mt-4 max-w-md">
         요청하신 페이지가 존재하지 않거나, 이동되었거나, 일시적으로 사용할 수
         없습니다.
       </p>

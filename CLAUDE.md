@@ -36,6 +36,7 @@ dropped.
 If a hard environment glitch appears (`Cannot find module './XXX.js'`,
 `vendor-chunks/...js` missing, RSC manifest errors), do **all three** before
 chasing code:
+
 1. kill any leftover `node.exe` listening on port 3000
 2. delete `.next/`
 3. restart `npm run dev`

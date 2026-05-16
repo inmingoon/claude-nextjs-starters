@@ -15,7 +15,14 @@ export default function GlobalError({
 
   return (
     <html lang="ko">
-      <body style={{ margin: 0, padding: "4rem 1.5rem", fontFamily: "system-ui, sans-serif", textAlign: "center" }}>
+      <body
+        style={{
+          margin: 0,
+          padding: "4rem 1.5rem",
+          fontFamily: "system-ui, sans-serif",
+          textAlign: "center",
+        }}
+      >
         <h1 style={{ fontSize: "1.5rem", fontWeight: 600 }}>
           치명적인 오류가 발생했습니다
         </h1>

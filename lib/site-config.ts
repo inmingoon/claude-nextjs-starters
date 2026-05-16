@@ -1,16 +1,13 @@
 export const siteConfig = {
-  name: "NextJS Starter",
+  name: "견적서 뷰어",
   description:
-    "Next.js 15, TypeScript, TailwindCSS, ShadcnUI로 구축된 프로덕션 준비가 완료된 웹 애플리케이션 템플릿",
+    "Notion으로 작성한 견적서를 토큰 링크로 공유하고 PDF로 다운로드받는 도구",
   url: "https://example.com",
-  nav: [
-    { title: "홈", href: "/" },
-    { title: "로그인", href: "/login" },
-  ],
+  nav: [] as ReadonlyArray<{ title: string; href: string }>,
   links: {
     github: "https://github.com",
   },
 } as const;
 
 export type SiteConfig = typeof siteConfig;
-export type NavItem = SiteConfig["nav"][number];
+export type NavItem = { title: string; href: string };

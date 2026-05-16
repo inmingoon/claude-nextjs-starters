@@ -43,7 +43,7 @@ export function MobileNav() {
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
+              className="text-foreground hover:bg-muted rounded-md px-3 py-2 text-sm transition-colors"
             >
               {item.title}
             </Link>

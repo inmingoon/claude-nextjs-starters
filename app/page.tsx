@@ -1,25 +1,7 @@
-import Link from "next/link";
-import {
-  Component,
-  Database,
-  FileType2,
-  Layers,
-  Palette,
-  Rocket,
-  Search,
-  ShieldCheck,
-  Smartphone,
-  Sparkles,
-  Triangle,
-  Wind,
-  Wrench,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
+import type { Metadata } from "next";
+import { FileText, Link2, Send, ShieldCheck } from "lucide-react";
 
 import { Container } from "@/components/layouts/container";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -27,146 +9,83 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-type TechItem = { title: string; subtitle: string; icon: LucideIcon };
-type FeatureItem = { title: string; description: string; icon: LucideIcon };
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
-const techStack: TechItem[] = [
-  { title: "Next.js 15", subtitle: "App Router", icon: Triangle },
-  { title: "TypeScript", subtitle: "타입 안정성", icon: FileType2 },
-  { title: "TailwindCSS", subtitle: "유틸리티 CSS", icon: Wind },
-  { title: "ShadcnUI", subtitle: "컴포넌트 라이브러리", icon: Component },
-];
+type Step = {
+  no: string;
+  title: string;
+  description: string;
+  icon: typeof FileText;
+};
 
-const features: FeatureItem[] = [
+const steps: Step[] = [
   {
-    title: "빠른 성능",
-    description: "Turbopack과 React Server Components로 최적화된 성능",
-    icon: Zap,
+    no: "01",
+    title: "Notion에 견적서 작성",
+    description:
+      "지정된 데이터베이스에 클라이언트명·항목·금액·만료일을 입력하면 access_token이 자동으로 채워집니다.",
+    icon: FileText,
   },
   {
-    title: "타입 안정성",
-    description: "TypeScript strict 모드로 컴파일 타임에 오류를 차단",
-    icon: ShieldCheck,
+    no: "02",
+    title: "상태를 sent로 변경",
+    description:
+      "Notion row의 status 필드를 sent로 바꾸면 견적서가 공유 가능 상태로 전환됩니다.",
+    icon: Send,
   },
   {
-    title: "아름다운 디자인",
-    description: "shadcn radix-nova 기반의 일관된 디자인 시스템",
-    icon: Palette,
-  },
-  {
-    title: "개발자 경험",
-    description: "ESLint · Prettier · Husky로 표준화된 워크플로",
-    icon: Wrench,
-  },
-  {
-    title: "반응형 디자인",
-    description: "모바일부터 데스크톱까지 어떤 화면에도 매끄럽게 대응",
-    icon: Smartphone,
-  },
-  {
-    title: "SEO 최적화",
-    description: "Metadata API와 SSG로 검색엔진 친화적 페이지",
-    icon: Search,
-  },
-  {
-    title: "확장 가능",
-    description: "모듈화된 컴포넌트로 기능을 빠르게 추가",
-    icon: Layers,
-  },
-  {
-    title: "프로덕션 준비",
-    description: "Vercel 즉시 배포 가능한 프로덕션 그레이드 설정",
-    icon: Rocket,
-  },
-  {
-    title: "상태 관리",
-    description: "필요할 때만 클라이언트 컴포넌트로 상태를 분리",
-    icon: Database,
+    no: "03",
+    title: "토큰 링크 공유",
+    description:
+      "/invoice/<id>?token=<access_token> 형식의 URL을 클라이언트에게 보내면 회원가입 없이 즉시 열람·PDF 다운로드가 가능합니다.",
+    icon: Link2,
   },
 ];
 
-export default function Home() {
+/** 견적서 토큰 링크가 있어야 접근 가능한 발행자용 안내 페이지. */
+export default function HomePage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="border-b border-border">
-        <Container className="py-20 text-center sm:py-28">
-          <Badge variant="secondary" className="gap-1.5">
-            <Sparkles className="size-3.5" />
-            Next.js 15 기반 스타터킷
-          </Badge>
-          <h1 className="mx-auto mt-6 max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-6xl">
-            모던 웹 개발을 위한 완벽한 스타터킷
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-balance text-lg text-muted-foreground">
-            Next.js 15, TypeScript, TailwindCSS, ShadcnUI로 구축된 프로덕션
-            준비가 완료된 웹 애플리케이션 템플릿
+    <Container className="py-16 sm:py-24">
+      <section className="mx-auto max-w-2xl text-center">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          견적서 뷰어
+        </h1>
+        <p className="text-muted-foreground mt-4 text-base text-balance sm:text-lg">
+          Notion으로 작성한 견적서를 토큰 링크 하나로 클라이언트에게 공유합니다.
+          수신자는 회원가입 없이 열람하고 PDF로 보관할 수 있습니다.
+        </p>
+      </section>
+
+      <section className="mt-12 grid gap-4 sm:mt-16 sm:grid-cols-3">
+        {steps.map(({ no, title, description, icon: Icon }) => (
+          <Card key={no}>
+            <CardHeader>
+              <div className="mb-3 flex items-center gap-2">
+                <span className="text-muted-foreground text-xs font-semibold tracking-widest">
+                  {no}
+                </span>
+                <Icon className="text-primary size-5" />
+              </div>
+              <CardTitle className="text-lg">{title}</CardTitle>
+              <CardDescription className="leading-relaxed">
+                {description}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </section>
+
+      <section className="border-border bg-muted/40 mx-auto mt-10 max-w-2xl rounded-lg border p-4">
+        <div className="flex items-start gap-3">
+          <ShieldCheck className="text-primary mt-0.5 size-5 shrink-0" />
+          <p className="text-muted-foreground text-sm">
+            이 사이트는 발행자가 보낸 견적서 링크로만 접근할 수 있습니다. 링크
+            없이 도착한 화면이라면 발행자에게 재요청해 주세요.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button asChild size="lg">
-              <Link href="/signup">무료로 시작하기</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/showcase">문서 보기</Link>
-            </Button>
-          </div>
-        </Container>
+        </div>
       </section>
-
-      {/* 기술 스택 */}
-      <section>
-        <Container className="grid gap-4 py-16 sm:grid-cols-2 lg:grid-cols-4">
-          {techStack.map(({ title, subtitle, icon: Icon }) => (
-            <Card key={title}>
-              <CardHeader className="items-center text-center">
-                <Icon className="size-7 text-primary" />
-                <CardTitle className="mt-3">{title}</CardTitle>
-                <CardDescription>{subtitle}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-        </Container>
-      </section>
-
-      {/* 주요 기능 */}
-      <section className="border-t border-border bg-muted/30">
-        <Container className="py-16">
-          <div className="mb-10 text-center">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              주요 기능
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              프로덕션에 바로 투입 가능한 핵심 기능들을 미리 갖췄습니다.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(({ title, description, icon: Icon }) => (
-              <Card key={title}>
-                <CardHeader>
-                  <Icon className="size-6 text-primary" />
-                  <CardTitle className="mt-3">{title}</CardTitle>
-                  <CardDescription>{description}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* 빠른 설치 */}
-      <section className="border-t border-border">
-        <Container className="py-16 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight">빠른 설치</h2>
-          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            아래 명령어 한 줄로 즉시 시작할 수 있습니다.
-          </p>
-          <div className="mx-auto mt-8 max-w-2xl rounded-lg border border-border bg-muted/60 p-4 text-left">
-            <code className="font-mono text-sm">
-              git clone https://github.com/your-repo/nextjs-starter.git
-            </code>
-          </div>
-        </Container>
-      </section>
-    </>
+    </Container>
   );
 }

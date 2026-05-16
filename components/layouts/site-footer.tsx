@@ -17,9 +17,9 @@ function GithubIcon({ className }: { className?: string }) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border py-6">
+    <footer className="border-border border-t py-6">
       <Container className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           © 2024 {siteConfig.name}. 모든 권리 보유.
         </p>
         <Link
@@ -27,7 +27,7 @@ export function SiteFooter() {
           target="_blank"
           rel="noreferrer"
           aria-label="GitHub"
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          className="text-muted-foreground hover:text-foreground transition-colors"
         >
           <GithubIcon className="size-5" />
         </Link>

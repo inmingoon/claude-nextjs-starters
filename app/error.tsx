@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { Container } from "@/components/layouts/container";
 import { Button } from "@/components/ui/button";
+import { logger } from "@/lib/logger";
 
 type ErrorProps = {
   error: Error & { digest?: string };
@@ -12,7 +13,12 @@ type ErrorProps = {
 
 export default function GlobalError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    console.error(error);
+    logger.error({
+      event: "app.error",
+      name: error.name,
+      digest: error.digest,
+      message: error.message,
+    });
   }, [error]);
 
   return (
@@ -20,7 +26,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
       <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
         문제가 발생했습니다
       </h1>
-      <p className="mt-3 max-w-md text-muted-foreground">
+      <p className="text-muted-foreground mt-3 max-w-md">
         {error.message || "예기치 못한 오류로 페이지를 표시할 수 없습니다."}
       </p>
       <div className="mt-8 flex gap-2">

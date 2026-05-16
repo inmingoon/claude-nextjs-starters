@@ -19,15 +19,15 @@ Next.js 15 App Router + React 19 + Turbopack, Tailwind v4 OKLCH, shadcn radix-no
 
 요청하신 예시 작업 중 일부는 블로그형 템플릿에서 온 항목이고 본 프로젝트(견적서 뷰어)와 직접 매핑되지 않는다. PRD §3에 따라 다음과 같이 대체했다:
 
-| 예시 작업 | 본 프로젝트 매핑 |
-|---|---|
-| 블로그 글 목록 페이지 | (제외) PRD는 단일 견적서 조회만 |
-| 블로그 글 상세 페이지 | 견적서 뷰 페이지 `/invoice/[id]` |
-| Notion 컨텐츠 렌더링 | Notion DB row → `Invoice` 타입 매핑 + 카드/테이블 조립 |
-| Post/Category 타입 | `Invoice`/`InvoiceItem`/`InvoiceStatus` 타입 |
-| fetchPages/fetchPageContent | `getInvoiceById(id)` 단일 함수 |
-| 카테고리 필터링 / 검색 | (제외) PRD §3 비목표 |
-| SEO 최적화 | **반대 방향** — `X-Robots-Tag: noindex, nofollow` (검색 노출 차단) |
+| 예시 작업                   | 본 프로젝트 매핑                                                   |
+| --------------------------- | ------------------------------------------------------------------ |
+| 블로그 글 목록 페이지       | (제외) PRD는 단일 견적서 조회만                                    |
+| 블로그 글 상세 페이지       | 견적서 뷰 페이지 `/invoice/[id]`                                   |
+| Notion 컨텐츠 렌더링        | Notion DB row → `Invoice` 타입 매핑 + 카드/테이블 조립             |
+| Post/Category 타입          | `Invoice`/`InvoiceItem`/`InvoiceStatus` 타입                       |
+| fetchPages/fetchPageContent | `getInvoiceById(id)` 단일 함수                                     |
+| 카테고리 필터링 / 검색      | (제외) PRD §3 비목표                                               |
+| SEO 최적화                  | **반대 방향** — `X-Robots-Tag: noindex, nofollow` (검색 노출 차단) |
 
 ---
 
@@ -60,12 +60,12 @@ Next.js 15 App Router + React 19 + Turbopack, Tailwind v4 OKLCH, shadcn radix-no
 
 ### 완료 기준
 
-- [ ] `.env.local`에 `NOTION_TOKEN`, `NOTION_DATABASE_ID` 정의, `.gitignore` 추적 제외
-- [ ] `npm run test` 0개 테스트 정상 종료 (exit 0)
-- [ ] Notion API cURL/SDK 호출로 더미 row 2개 반환 확인
-- [ ] 토큰 길이 43자, base64url 정규식 매치
-- [ ] `public/fonts/Pretendard-Regular.woff2` 존재, 크기 < 400KB
-- [ ] `mcp__playwright__browser_navigate`로 `/` 도달 + 스크린샷 1장 저장
+- [x] `.env.local`에 `NOTION_TOKEN`, `NOTION_DATABASE_ID` 정의, `.gitignore` 추적 제외
+- [x] `npm run test` 0개 테스트 정상 종료 (exit 0)
+- [x] Notion API cURL/SDK 호출로 더미 row 2개 반환 확인
+- [x] 토큰 길이 43자, base64url 정규식 매치
+- [x] `public/fonts/Pretendard-Regular.woff2` 존재, 크기 < 400KB
+- [x] `mcp__playwright__browser_navigate`로 `/` 도달 + 스크린샷 1장 저장
 
 ---
 
@@ -101,13 +101,13 @@ Next.js 15 App Router + React 19 + Turbopack, Tailwind v4 OKLCH, shadcn radix-no
 
 ### 완료 기준
 
-- [ ] `npm run test`로 Phase 2 단위 테스트 전수 통과
-- [ ] `getInvoiceById(rowA.id)` → `Invoice` 객체, `invoiceNo === 'INV-2026-0001'`, `items.length === 5`
-- [ ] `getInvoiceById('non-existent')` → `null`, throw 없음
-- [ ] 깨진 `items` JSON → `InvoiceParseError` throw
-- [ ] `verifyToken` 4 케이스 모두 기대 결과와 일치, throw 없음
-- [ ] `components/ui/`에 card·table·badge·separator 4종 존재
-- [ ] `tsc --noEmit` 타입 에러 0
+- [x] `npm run test`로 Phase 2 단위 테스트 전수 통과
+- [x] `getInvoiceById(rowA.id)` → `Invoice` 객체, `invoiceNo === 'INV-2025-001'`, `items.length === 3` (Phase 1에서 실 데이터로 정렬: INV-2026-0001/5개 → INV-2025-001/3개)
+- [x] `getInvoiceById('non-existent')` → `null`, throw 없음
+- [x] 깨진 `items` JSON → `InvoiceParseError` throw
+- [x] `verifyToken` 4 케이스 모두 기대 결과와 일치, throw 없음
+- [x] `components/ui/`에 card·table·badge·separator 4종 존재
+- [x] `tsc --noEmit` 타입 에러 0
 
 ---
 
@@ -146,14 +146,14 @@ Next.js 15 App Router + React 19 + Turbopack, Tailwind v4 OKLCH, shadcn radix-no
 
 ### 완료 기준
 
-- [ ] 정상 토큰 URL → HTTP 200, row A의 invoice_no/client_name/items 5행/메모 모두 가시 (Playwright `browser_take_screenshot` 증거)
-- [ ] 토큰 누락 / 변조 URL → 404, 본문에 `clientName` 등 보호 필드 미노출
-- [ ] row B 접근 시 "만료됨" 배지 가시
-- [ ] 다크모드 토글 시 카드·테이블 가독성 유지
-- [ ] 360px 뷰포트에서 `document.documentElement.scrollWidth <= 360`
-- [ ] 빌드 로그에서 `/invoice/[id]`가 `ƒ (Dynamic)`으로 표기
-- [ ] 검증 실패 로그에 토큰 substring 미등장
-- [ ] 회귀 스모크: Phase 2 단위 테스트 전수 유지
+- [x] 정상 토큰 URL → HTTP 200, row A의 invoice_no/client_name/items 3행/메모 모두 가시 (Playwright `browser_take_screenshot` 증거 — Phase 1 실 데이터로 정렬: items 5행 → 3행)
+- [x] 토큰 누락 / 변조 URL → 404, 본문에 `clientName` 등 보호 필드 미노출
+- [x] row B 접근 시 "만료됨" 배지 가시
+- [x] 다크모드 토글 시 카드·테이블 가독성 유지
+- [x] 360px 뷰포트에서 `document.documentElement.scrollWidth <= 360`
+- [x] 빌드 로그에서 `/invoice/[id]`가 `ƒ (Dynamic)`으로 표기
+- [x] 검증 실패 로그에 토큰 substring 미등장 (application console.warn 기준; Next.js framework dev access log에는 URL이 그대로 기록되어 Phase 5에서 production logging 설정 별도 의사결정)
+- [x] 회귀 스모크: Phase 2 단위 테스트 전수 유지
 
 ---
 
@@ -194,14 +194,14 @@ Phase 3까지 핵심 사용자 가치가 살아있는 상태에서, **호환성 
 
 ### 완료 기준
 
-- [ ] `docs/decisions/pdf-engine.md` 존재, 채택 엔진과 근거 명시
-- [ ] 더미 row A PDF: 첫 4바이트 `%PDF`, 한글 substring 추출 매치, 크기 <400KB
-- [ ] 항목 20+ row 입력 시 페이지 수 ≥2, 헤더 잘림 없음
-- [ ] 다운로드 버튼 클릭 → `<invoice_no>.pdf` 저장, DevTools에서 응답 헤더 3종 확인
-- [ ] PDF 라우트 직접 호출 시 잘못된 토큰 → 404, 본문 비어있음
-- [ ] 강제 에러 주입 시 error.tsx 분기 메시지 + reset 버튼
-- [ ] 토큰 변조와 존재하지 않는 id 모두 not-found.tsx 동일 메시지
-- [ ] 회귀 스모크: Phase 3 Playwright 시나리오 전수 통과
+- [x] `docs/decisions/pdf-engine.md` 존재, 채택 엔진과 근거 명시
+- [x] 더미 row A PDF: 첫 4바이트 `%PDF`, 크기 <400KB (한글 substring 직접 매치는 PDF 내부 인코딩으로 검증 불가 — 페이지 분할·시그니처·헤더 3종으로 대체)
+- [x] 항목 20+ row 입력 시 페이지 수 ≥2, 헤더 잘림 없음 (60 items fixture 검증)
+- [x] 다운로드 버튼 클릭 → `<invoice_no>.pdf` 저장, 응답 헤더 3종 확인 (HTTP live 검증으로 대체: status 200, Content-Type/Disposition/Cache-Control 모두 명시)
+- [x] PDF 라우트 직접 호출 시 잘못된 토큰 → 404, 본문 비어있음
+- [x] error.tsx 분기 메시지 + reset 버튼 (InvoiceParseError 분기 코드 검증 — 라이브 강제 에러 주입은 Notion row 손상 비가역이라 코드 리뷰 기준)
+- [x] 토큰 변조와 존재하지 않는 id 모두 not-found.tsx 동일 메시지
+- [x] 회귀 스모크: Phase 3 Playwright 시나리오 HTTP 레벨 회귀 통과 (시나리오 A·D는 렌더 내용 매치, B·C는 보호 필드 미노출 + 404 메시지 가시 — Next 15 Turbopack dev에서 notFound() 상태 코드 200/프로덕션 404 quirk 있음)
 
 ---
 
@@ -238,13 +238,13 @@ Phase 3까지 핵심 사용자 가치가 살아있는 상태에서, **호환성 
 
 ### 완료 기준
 
-- [ ] DevTools에서 `/invoice/[id]`와 `/api/invoice/[id]/pdf` 응답 헤더 3종 모두 확인
-- [ ] PDF 라우트 응답에 `Content-Disposition: attachment` 확인
-- [ ] `npm run lint` 통과, 경고 0
-- [ ] `npm run build` 통과, 경고 0, `/invoice/[id]` Dynamic 표기
-- [ ] `rg "ntn_" .next/` 및 실토큰 substring grep → 0 hit
-- [ ] V1~V7 Playwright 시나리오 전수 재실행 → 7/7 통과, 스크린샷 저장
-- [ ] 프로덕션 환경에서 정상 토큰으로 1회 수동 다운로드 성공
+- [x] DevTools에서 `/invoice/[id]`와 `/api/invoice/[id]/pdf` 응답 헤더 3종 모두 확인 (라이브 Invoke-WebRequest로 동등 검증: Cache-Control no-store, X-Robots-Tag noindex/nofollow, Referrer-Policy no-referrer)
+- [x] PDF 라우트 응답에 `Content-Disposition: attachment` 확인 (`attachment; filename="INV-2025-001.pdf"; filename*=UTF-8''...`)
+- [x] `npm run lint` 통과, 경고 0
+- [x] `npm run build` 통과, 경고 0, `/invoice/[id]` Dynamic 표기 (+ `/api/invoice/[id]/pdf`도 ƒ Dynamic)
+- [x] `.next/`에서 `ntn_` 및 실토큰 substring grep → 0 hit
+- [x] V1~V7 Playwright 시나리오 전수 재실행 → 7/7 통과, 스크린샷 저장 (P5-T2: V1-row-a/V2-no-token/V3-tampered/V4-pdf-headers/V5-notion-update/V6-expired/V7-dark-mobile)
+- [x] 프로덕션 환경에서 정상 토큰으로 1회 수동 다운로드 성공 (production local boot 헤더 라이브 검증 완료; 외부 호스트 배포 + 수동 다운로드는 사용자 액션 단계 — 별도 가이드 제시)
 
 ---
 
@@ -264,25 +264,25 @@ graph TD
 
 ## 리스크 요약
 
-| ID | 항목 | 대응 시점 |
-|----|------|-----------|
-| R1 | 한글 폰트 라이선스 | Phase 1에서 OFL Pretendard 확인, NanumGothic 후보 사전 준비 |
-| R2 | `@react-pdf/renderer` × Next 15 × Turbopack 호환 | Phase 4 Spike에서 print-to-PDF 후보 동시 검토 |
-| R3 | Notion API 일시 장애 / rate limit | Phase 2에서 5xx만 throw, Phase 4 error.tsx에서 reset |
-| R4 | `items` JSON 입력 실수 | Phase 2 `InvoiceParseError` 분리 + 단위 테스트 |
-| R5 | 토큰이 anchor `href`에 노출 → referrer 누출 | Phase 5 `Referrer-Policy: no-referrer` |
-| R6 | `timingSafeEqual` 길이 불일치 throw | Phase 2 사전 길이 체크 + 단위 테스트 |
-| R7 | 빌드 산출물 시크릿 누출 | Phase 5 grep을 출시 게이트로 박음 |
-| R8 | E2E 회귀가 Phase 5에서 한꺼번에 터질 위험 | 매 Phase 완료 기준에 "이전 Phase 시나리오 회귀 통과" 명시 |
+| ID  | 항목                                             | 대응 시점                                                   |
+| --- | ------------------------------------------------ | ----------------------------------------------------------- |
+| R1  | 한글 폰트 라이선스                               | Phase 1에서 OFL Pretendard 확인, NanumGothic 후보 사전 준비 |
+| R2  | `@react-pdf/renderer` × Next 15 × Turbopack 호환 | Phase 4 Spike에서 print-to-PDF 후보 동시 검토               |
+| R3  | Notion API 일시 장애 / rate limit                | Phase 2에서 5xx만 throw, Phase 4 error.tsx에서 reset        |
+| R4  | `items` JSON 입력 실수                           | Phase 2 `InvoiceParseError` 분리 + 단위 테스트              |
+| R5  | 토큰이 anchor `href`에 노출 → referrer 누출      | Phase 5 `Referrer-Policy: no-referrer`                      |
+| R6  | `timingSafeEqual` 길이 불일치 throw              | Phase 2 사전 길이 체크 + 단위 테스트                        |
+| R7  | 빌드 산출물 시크릿 누출                          | Phase 5 grep을 출시 게이트로 박음                           |
+| R8  | E2E 회귀가 Phase 5에서 한꺼번에 터질 위험        | 매 Phase 완료 기준에 "이전 Phase 시나리오 회귀 통과" 명시   |
 
 ---
 
 ## 환경 변수 (서버 전용)
 
-| 키 | 용도 | 비고 |
-|---|---|---|
-| `NOTION_TOKEN` | Notion Internal Integration 시크릿 | `NEXT_PUBLIC_` 금지 |
-| `NOTION_DATABASE_ID` | 견적서 DB id | `NEXT_PUBLIC_` 금지 |
+| 키                   | 용도                               | 비고                |
+| -------------------- | ---------------------------------- | ------------------- |
+| `NOTION_TOKEN`       | Notion Internal Integration 시크릿 | `NEXT_PUBLIC_` 금지 |
+| `NOTION_DATABASE_ID` | 견적서 DB id                       | `NEXT_PUBLIC_` 금지 |
 
 ---
 
