@@ -148,6 +148,43 @@ export async function getInvoiceById(id: string): Promise<Invoice | null> {
   };
 }
 
+/**
+ * 견적서 invoice_no(예: "INV-2025-001")로 단일 row 조회. Title 필드 정확 일치.
+ * - Notion data source 필터링으로 page id 후 위임(getInvoiceById)해 동일 매핑 경로 보장.
+ * - 검색 0건/4xx → null, 5xx만 throw. 중복 invoice_no가 있으면 첫 매치만 반환.
+ * - 친화적 URL `/invoice/INV-2025-001?token=...` 용. 페이지 id 기반 링크는 getInvoiceById가 계속 처리.
+ */
+export async function getInvoiceByNo(no: string): Promise<Invoice | null> {
+  const trimmed = no.trim();
+  if (!trimmed) return null;
+  const dataSourceId = await getDataSourceId();
+  let res: Awaited<ReturnType<typeof notion.dataSources.query>>;
+  try {
+    res = await notion.dataSources.query({
+      data_source_id: dataSourceId,
+      filter: {
+        property: "invoice_no",
+        title: { equals: trimmed },
+      },
+      page_size: 1,
+    });
+  } catch (e: unknown) {
+    const err = e as { code?: string; status?: number };
+    if (err.code === APIErrorCode.ObjectNotFound) return null;
+    if (
+      typeof err.status === "number" &&
+      err.status >= 400 &&
+      err.status < 500
+    ) {
+      return null;
+    }
+    throw e;
+  }
+  const first = res.results[0];
+  if (!first) return null;
+  return getInvoiceById(first.id);
+}
+
 // ----- 목록/통계 (Phase B) -----
 
 let cachedDataSourceId: string | null = null;
